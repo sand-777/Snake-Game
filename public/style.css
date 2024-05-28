@@ -1,0 +1,136 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+@keyframes pulse{
+    0%{
+        transform: scale(1);
+    }
+    25%{
+        transform: scale(1.2);
+    }
+    50%{
+        transform: scale(1.4);
+    }
+    75%{
+        transform: scale(2);
+    }
+    100%{
+        transform: scale(1);
+    }
+}
+body{
+    color: #fff;
+    overflow: hidden;
+
+    position: relative;
+}
+
+.background-wrapper {
+    position: fixed; /* Ensure the background stays fixed while scrolling */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url("../public/img/vector.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; 
+}
+
+.background-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+  
+}
+
+.background-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: -1; 
+}
+
+.container{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content:space-evenly;
+}
+
+
+#score-board{
+ display: flex;
+ justify-content: space-around;
+ width: 400px;
+ font-size: 24px;
+ color: #fff ;
+ z-index: 1;
+}
+
+#game-board{
+    position: relative;
+    height: 400px;
+    width: 400px;
+    border: 1px solid #fff ;
+    /* margin-bottom: 10vh; */
+    
+}
+
+#game-info {
+    
+    font-size: 30px;
+    font-weight: bold;
+    
+   
+}
+
+.snake{
+    width: 20px;
+    height: 20px;
+    background-color:  rgb(210, 206, 206);
+    position: absolute;
+    top : 0px;
+    left: 0px;
+    border-radius: 8px;
+    /* box-shadow: 0 0 5px rgba(210, 206, 206, 0.5), 0 0 20px rgba(210, 206, 206, 0.5), 0 0 30px rgba(210, 206, 206, 0.5); */
+    
+
+}
+
+ .head{
+    background-color: #db0f009e;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+   
+    /* box-shadow: 0 0 2px rgba(219, 15, 0, 0.621), 0 0 4px rgba(219, 15, 0, 0.621), 0 0 6px rgba(219, 15, 0, 0.621);  */
+
+ }
+
+
+
+.food{
+   
+    position: absolute;
+    /* height: 20px;
+    width: 20px; */
+    font-size: 20px;
+    line-height: 20px;
+    /* animation: pulse 2s ease-in; */
+    /* border: 1px solid black; */
+
+    
+    
+}
