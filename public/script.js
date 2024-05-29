@@ -135,6 +135,15 @@ function gameLoop() {
         return;
     }
     if (gameOver()) {
+        const gameBoard = document.getElementById("game-board");
+        if (gameBoard) {
+            gameBoard.innerHTML = "";
+            const gameOverMessage = document.createElement("div");
+            gameOverMessage.classList.add("game-over-message");
+            gameOverMessage.innerText = `Game Over. Score: ${score}. Press Space to Play Again.`;
+            gameBoard.appendChild(gameOverMessage);
+            console.log(gameBoard.innerHTML);
+        }
         gameStarted = false;
         gameSound.pause();
         gameOverSound.play();
@@ -151,7 +160,8 @@ function gameLoop() {
         snake = [{ top: 200, left: 200 }];
         direction = { key: "ArrowRight", dx: 20, dy: 0 };
         food = null;
-        randomFood();
+        window.addEventListener("keydown", startGame, { once: true });
+        return;
     }
     setTimeout(() => {
         const gameBoard = document.getElementById("game-board");
