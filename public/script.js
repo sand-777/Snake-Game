@@ -6,27 +6,27 @@ let food = null;
 let score = 0;
 let highScore = 0;
 let speed = 200;
-let gameStarted = true;
-let gameInfo = document.getElementById('game-info');
+let gameStarted = false;
+let gameInfo = document.getElementById("game-info");
 let eatSound = new Audio("../eat.mp3");
 let gameOverSound = new Audio("../gameOver.mp3");
 let gameSound = new Audio("../game.mp3");
 const foodIcons = [
-    '🍏', // Green Apple
-    '🍎', // Red Apple
-    '🍌', // Banana
-    '🍒', // Cherries
-    '🍇', // Grapes
-    '🍉',
-    '🍓',
-    '🥝',
-    '🥭'
+    "🍏", // Green Apple
+    "🍎", // Red Apple
+    "🍌", // Banana
+    "🍒", // Cherries
+    "🍇", // Grapes
+    "🍉",
+    "🍓",
+    "🥝",
+    "🥭",
 ];
-let currentFoodIcon = '';
+let currentFoodIcon = "";
 window.addEventListener("keydown", (e) => {
     const newDirection = getDirection(e.key);
     const allowChange = Math.abs(direction.dx) !== Math.abs(newDirection.dx);
-    if (allowChange)
+    if (allowChange && gameStarted)
         direction = newDirection;
 });
 function getDirection(key) {
@@ -127,10 +127,17 @@ function updateScore() {
     }
 }
 function gameLoop() {
+    if (!gameStarted) {
+        if (gameInfo) {
+            gameInfo.innerText = "Press Space to Start";
+        }
+        window.addEventListener("keydown", startGame, { once: true });
+        return;
+    }
     if (gameOver()) {
         gameStarted = false;
-        gameOverSound.play();
         gameSound.pause();
+        gameOverSound.play();
         gameSound.currentTime = 0;
         //     if(gameInfo){
         //     gameInfo.innerText = "Game Over"
@@ -154,12 +161,23 @@ function gameLoop() {
         moveSnake();
         if (!food)
             randomFood();
-        gameSound.play();
+        if (gameStarted) {
+            gameSound.play();
+        }
         updateScore();
         drawSnake();
         drawFood();
         gameLoop();
     }, speed);
+}
+function startGame(e) {
+    if (e.key === " ") {
+        gameStarted = true;
+        if (gameInfo) {
+            gameInfo.innerText = "";
+        }
+        gameLoop();
+    }
 }
 // randomFood();
 // drawSnake();

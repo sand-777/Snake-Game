@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Sedan+SC&display=swap");
+
 *{
     margin: 0;
     padding: 0;
@@ -22,8 +24,10 @@
 body{
     color: #fff;
     overflow: hidden;
-
     position: relative;
+    font-family: "Sedan SC", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .background-wrapper {
