@@ -15,9 +15,6 @@ interface Direction {
 
 const gameBoard = document.getElementById("game-board");
 
-document.addEventListener("touchmove",(e)=>{
-  console.log(e);
-})
 
 
 const isMobile: boolean = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -64,9 +61,9 @@ let currentFoodIcon: string = "";
 if(isMobile){
 
 if(gameBoard){
-  gameBoard.addEventListener("touchstart",handleTouchStart,false);
-  gameBoard.addEventListener("touchmove",handleTouchMove,false);
-  gameBoard.addEventListener("touchend",handleTouchEnd,false);
+  document.addEventListener("touchstart",handleTouchStart,false);
+  document.addEventListener("touchmove",handleTouchMove,false);
+  document.addEventListener("touchend",handleTouchEnd,false);
 }
 
 }

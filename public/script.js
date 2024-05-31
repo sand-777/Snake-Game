@@ -1,9 +1,6 @@
 "use strict";
 console.log("hello world");
 const gameBoard = document.getElementById("game-board");
-document.addEventListener("touchmove", (e) => {
-    console.log(e);
-});
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 console.log(isMobile);
 let touchStartX = 0;
@@ -37,9 +34,9 @@ const foodIcons = [
 let currentFoodIcon = "";
 if (isMobile) {
     if (gameBoard) {
-        gameBoard.addEventListener("touchstart", handleTouchStart, false);
-        gameBoard.addEventListener("touchmove", handleTouchMove, false);
-        gameBoard.addEventListener("touchend", handleTouchEnd, false);
+        document.addEventListener("touchstart", handleTouchStart, false);
+        document.addEventListener("touchmove", handleTouchMove, false);
+        document.addEventListener("touchend", handleTouchEnd, false);
     }
 }
 else {
