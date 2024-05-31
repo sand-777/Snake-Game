@@ -1,4 +1,6 @@
 console.log("hello world");
+
+
 interface Position {
   top: number;
   left: number;
@@ -10,6 +12,22 @@ interface Direction {
   dy: number;
 }
 
+
+const gameBoard = document.getElementById("game-board");
+
+document.addEventListener("touchmove",(e)=>{
+  console.log(e);
+})
+
+
+const isMobile: boolean = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+console.log(isMobile);
+
+let touchStartX: number = 0;
+let touchStartY: number = 0;
+let touchEndX: number = 0;
+let touchEndY: number = 0;
+
 let snake: Position[] = [{ top: 200, left: 200 }];
 let direction: Direction = { key: "ArrowRight", dx: 20, dy: 0 };
 let food: Position | null = null;
@@ -17,6 +35,9 @@ let score: number = 0;
 let highScore: number = 0;
 let speed: number = 200;
 let gameStarted: boolean = false;
+
+let gameBoardHeight :number = 440;
+let gameBoardWidth: number = 620;
 
 let gameInfo = document.getElementById("game-info");
 
@@ -36,13 +57,41 @@ const foodIcons = [
   "🥭",
 ];
 
+
+
 let currentFoodIcon: string = "";
 
+if(isMobile){
+
+if(gameBoard){
+  gameBoard.addEventListener("touchstart",handleTouchStart,false);
+  gameBoard.addEventListener("touchmove",handleTouchMove,false);
+  gameBoard.addEventListener("touchend",handleTouchEnd,false);
+}
+
+}
+else{
 window.addEventListener("keydown", (e: KeyboardEvent) => {
   const newDirection = getDirection(e.key);
   const allowChange = Math.abs(direction.dx) !== Math.abs(newDirection.dx);
   if (allowChange && gameStarted) direction = newDirection;
 });
+}
+
+function handleTouchStart(e:TouchEvent){
+const firstTouch = e.touches[0];
+console.log(firstTouch)
+}
+
+
+function handleTouchMove(){
+
+}
+
+function handleTouchEnd(){
+
+}
+
 
 function getDirection(key: string): Direction {
   switch (key) {
@@ -73,10 +122,10 @@ function moveSnake(): void {
   head.left += direction.dx;
   snake.unshift(head);
 
-  if (snake[0].top < 0) snake[0].top = 380;
-  if (snake[0].left < 0) snake[0].left = 380;
-  if (snake[0].top > 380) snake[0].top = 0;
-  if (snake[0].left > 380) snake[0].left = 0;
+  if (snake[0].top < 0) snake[0].top = gameBoardHeight-20;
+  if (snake[0].left < 0) snake[0].left = gameBoardWidth-20;
+  if (snake[0].top > gameBoardHeight-20) snake[0].top = 0;
+  if (snake[0].left > gameBoardWidth-20) snake[0].left = 0;
 
   if (eatFood()) {
     eatSound.play();
@@ -90,8 +139,8 @@ function moveSnake(): void {
 
 function randomFood(): void {
   food = {
-    top: Math.floor(Math.random() * 20) * 20,
-    left: Math.floor(Math.random() * 20) * 20,
+    top: Math.floor(Math.random() * 18) * 20,
+    left: Math.floor(Math.random() * 18 ) * 20,
   };
 
   currentFoodIcon = foodIcons[Math.floor(Math.random() * foodIcons.length)];
@@ -227,6 +276,7 @@ function gameLoop(): void {
 
 function startGame(e: KeyboardEvent): void {
   if (e.key === " ") {
+    e.preventDefault();
     gameStarted = true;
     if (gameInfo) {
       gameInfo.innerText = "";

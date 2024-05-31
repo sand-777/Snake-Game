@@ -1,5 +1,15 @@
 "use strict";
 console.log("hello world");
+const gameBoard = document.getElementById("game-board");
+document.addEventListener("touchmove", (e) => {
+    console.log(e);
+});
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+console.log(isMobile);
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
 let snake = [{ top: 200, left: 200 }];
 let direction = { key: "ArrowRight", dx: 20, dy: 0 };
 let food = null;
@@ -7,6 +17,8 @@ let score = 0;
 let highScore = 0;
 let speed = 200;
 let gameStarted = false;
+let gameBoardHeight = 440;
+let gameBoardWidth = 620;
 let gameInfo = document.getElementById("game-info");
 let eatSound = new Audio("../eat.mp3");
 let gameOverSound = new Audio("../gameOver.mp3");
@@ -23,12 +35,29 @@ const foodIcons = [
     "🥭",
 ];
 let currentFoodIcon = "";
-window.addEventListener("keydown", (e) => {
-    const newDirection = getDirection(e.key);
-    const allowChange = Math.abs(direction.dx) !== Math.abs(newDirection.dx);
-    if (allowChange && gameStarted)
-        direction = newDirection;
-});
+if (isMobile) {
+    if (gameBoard) {
+        gameBoard.addEventListener("touchstart", handleTouchStart, false);
+        gameBoard.addEventListener("touchmove", handleTouchMove, false);
+        gameBoard.addEventListener("touchend", handleTouchEnd, false);
+    }
+}
+else {
+    window.addEventListener("keydown", (e) => {
+        const newDirection = getDirection(e.key);
+        const allowChange = Math.abs(direction.dx) !== Math.abs(newDirection.dx);
+        if (allowChange && gameStarted)
+            direction = newDirection;
+    });
+}
+function handleTouchStart(e) {
+    const firstTouch = e.touches[0];
+    console.log(firstTouch);
+}
+function handleTouchMove() {
+}
+function handleTouchEnd() {
+}
 function getDirection(key) {
     switch (key) {
         case "ArrowUp":
@@ -53,12 +82,12 @@ function moveSnake() {
     head.left += direction.dx;
     snake.unshift(head);
     if (snake[0].top < 0)
-        snake[0].top = 380;
+        snake[0].top = gameBoardHeight - 20;
     if (snake[0].left < 0)
-        snake[0].left = 380;
-    if (snake[0].top > 380)
+        snake[0].left = gameBoardWidth - 20;
+    if (snake[0].top > gameBoardHeight - 20)
         snake[0].top = 0;
-    if (snake[0].left > 380)
+    if (snake[0].left > gameBoardWidth - 20)
         snake[0].left = 0;
     if (eatFood()) {
         eatSound.play();
@@ -72,8 +101,8 @@ function moveSnake() {
 }
 function randomFood() {
     food = {
-        top: Math.floor(Math.random() * 20) * 20,
-        left: Math.floor(Math.random() * 20) * 20,
+        top: Math.floor(Math.random() * 18) * 20,
+        left: Math.floor(Math.random() * 18) * 20,
     };
     currentFoodIcon = foodIcons[Math.floor(Math.random() * foodIcons.length)];
 }
@@ -182,6 +211,7 @@ function gameLoop() {
 }
 function startGame(e) {
     if (e.key === " ") {
+        e.preventDefault();
         gameStarted = true;
         if (gameInfo) {
             gameInfo.innerText = "";

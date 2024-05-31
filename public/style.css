@@ -3,6 +3,7 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 @keyframes pulse{
     0%{
@@ -28,17 +29,19 @@ body{
     font-family: "Sedan SC", serif;
   font-weight: 400;
   font-style: normal;
+  height: 100vh;
+  width: 100vw;
 }
 
 .background-wrapper {
-    position: fixed; /* Ensure the background stays fixed while scrolling */
+    position: fixed; 
     top: 0;
     left: 0;
-    width: 100%;
     height: 100%;
+    width: 100%;
     z-index: -1;
-    background-image: url("../public/img/vector.jpg");
-    background-size: cover;
+    background-image: url("../public/img/enlarged.jpg");
+    background-size: 1580px;
     background-position: center;
     background-repeat: no-repeat; 
 }
@@ -61,7 +64,7 @@ body{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: -1; 
 }
 
@@ -75,26 +78,33 @@ body{
 
 
 #score-board{
+ margin-top: 20px;
  display: flex;
  justify-content: space-around;
  width: 400px;
  font-size: 24px;
  color: #fff ;
  z-index: 1;
+
+ 
 }
 
 #game-board{
     position: relative;
-    height: 400px;
-    width: 400px;
-    border: 1px solid #fff ;
-    /* margin-bottom: 10vh; */
+    height: 440px;
+    width: 620px;
+    border: 5px solid #222706 ;
+    border-radius: 20px;
+    margin-bottom: 80px;
+    box-shadow: 0px 0px 5px 14px #222706;
+    
     
 }
 
 #game-info {
-    
+    height: 30px;
     font-size: 30px;
+    line-height: 30px;
     font-weight: bold;
     
    
@@ -147,3 +157,15 @@ body{
     color: hsl(29, 100%, 50%);
     
 }
+
+
+@media (max-width: 400px) {
+    #game-board{
+        position: relative;
+        height: 340px;
+        width: 340px;
+        border: 1px solid #fff ;
+        /* margin-bottom: 10vh; */
+        
+    }
+  }
