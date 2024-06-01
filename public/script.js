@@ -38,10 +38,14 @@ const foodIcons = [
     "🥭",
 ];
 let currentFoodIcon = "";
-startButton === null || startButton === void 0 ? void 0 : startButton.addEventListener("onclick", () => {
-    console.log("btn clicked");
+startButton === null || startButton === void 0 ? void 0 : startButton.addEventListener("click", () => {
+    console.log("Clicked");
+    startGame();
 });
 if (isMobile) {
+    gameBoard === null || gameBoard === void 0 ? void 0 : gameBoard.addEventListener("touch", () => {
+        startGame();
+    });
     if (gameBoard) {
         gameBoard.addEventListener("touchstart", handleTouchStart, false);
         gameBoard.addEventListener("touchmove", handleTouchMove, false);
@@ -76,11 +80,16 @@ function handleTouchEnd() {
         else
             changeDirection("ArrowLeft");
     }
-    else {
+    else if (Math.abs(dx) < Math.abs(dy)) {
         if (dy > 0)
             changeDirection("ArrowDown");
         else
             changeDirection("ArrowUp");
+    }
+    else {
+        if (!gameStarted) {
+            startGame();
+        }
     }
 }
 function changeDirection(key) {
@@ -189,7 +198,12 @@ function gameLoop() {
         if (gameInfo) {
             gameInfo.innerText = "Press Space to Start";
         }
-        window.addEventListener("keydown", startGame, { once: true });
+        // window.addEventListener("keydown", startGame, { once: true });
+        window.addEventListener("keydown", (e) => {
+            if (e.key === " ") {
+                startGame();
+            }
+        });
         return;
     }
     if (gameOver()) {
@@ -238,15 +252,12 @@ function gameLoop() {
         gameLoop();
     }, speed);
 }
-function startGame(e) {
-    if (e.key === " ") {
-        e.preventDefault();
-        gameStarted = true;
-        if (gameInfo) {
-            gameInfo.innerText = "";
-        }
-        gameLoop();
+function startGame() {
+    gameStarted = true;
+    if (gameInfo) {
+        gameInfo.innerText = "";
     }
+    gameLoop();
 }
 // randomFood();
 // drawSnake();

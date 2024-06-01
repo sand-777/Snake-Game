@@ -67,14 +67,22 @@ const foodIcons = [
 
 
 let currentFoodIcon: string = "";
-startButton?.addEventListener("onclick",()=>{
-  console.log("btn clicked")
+startButton?.addEventListener("click",()=>{
+  console.log("Clicked")
+  startGame();
+  
  })
   
 
 if(isMobile){
 
+  gameBoard?.addEventListener("touch",()=>{
+    startGame();
+  })
 
+ 
+
+  
 
 if(gameBoard){
   gameBoard.addEventListener("touchstart",handleTouchStart,false);
@@ -112,10 +120,16 @@ function handleTouchEnd() {
   if (Math.abs(dx) > Math.abs(dy)) {
       if (dx > 0) changeDirection("ArrowRight");
       else changeDirection("ArrowLeft");
-  } else {
+  } else if (Math.abs(dx) < Math.abs(dy)) {
       if (dy > 0) changeDirection("ArrowDown");
       else changeDirection("ArrowUp");
   }
+  else {
+    if(!gameStarted){
+      startGame();
+    }
+  }
+
 }
 
 function changeDirection(key:string) {
@@ -246,7 +260,12 @@ function gameLoop(): void {
       gameInfo.innerText = "Press Space to Start";
     }
 
-    window.addEventListener("keydown", startGame, { once: true });
+    // window.addEventListener("keydown", startGame, { once: true });
+    window.addEventListener("keydown",(e)=>{
+   if( e.key === " "){
+   startGame();
+   }
+    })
 
     return;
   }
@@ -307,15 +326,14 @@ function gameLoop(): void {
   }, speed);
 }
 
-function startGame(e: KeyboardEvent): void {
-  if (e.key === " ") {
-    e.preventDefault();
+function startGame(): void {
+
     gameStarted = true;
     if (gameInfo) {
       gameInfo.innerText = "";
     }
     gameLoop();
-  }
+  
 }
 
 
