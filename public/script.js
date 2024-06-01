@@ -1,6 +1,12 @@
 "use strict";
 console.log("hello world");
 const gameBoard = document.getElementById("game-board");
+console.log(gameBoard);
+const startButton = document.querySelector("#start-game");
+console.log(startButton);
+gameBoard === null || gameBoard === void 0 ? void 0 : gameBoard.addEventListener("mousemove", () => {
+    console.log("moving");
+});
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 console.log(isMobile);
 let touchStartX = 0;
@@ -32,11 +38,15 @@ const foodIcons = [
     "🥭",
 ];
 let currentFoodIcon = "";
+startButton === null || startButton === void 0 ? void 0 : startButton.addEventListener("onclick", () => {
+    console.log("btn clicked");
+});
 if (isMobile) {
     if (gameBoard) {
-        document.addEventListener("touchstart", handleTouchStart, false);
-        document.addEventListener("touchmove", handleTouchMove, false);
-        document.addEventListener("touchend", handleTouchEnd, false);
+        gameBoard.addEventListener("touchstart", handleTouchStart, false);
+        gameBoard.addEventListener("touchmove", handleTouchMove, false);
+        gameBoard.addEventListener("touchend", handleTouchEnd, false);
+        console.log("Touch events attached to gameBoard");
     }
 }
 else {
@@ -49,11 +59,35 @@ else {
 }
 function handleTouchStart(e) {
     const firstTouch = e.touches[0];
-    console.log(firstTouch);
+    touchStartX = firstTouch.clientX;
+    touchStartY = firstTouch.clientY;
 }
-function handleTouchMove() {
+function handleTouchMove(e) {
+    const touch = e.touches[0];
+    touchEndX = touch.clientX;
+    touchEndY = touch.clientY;
 }
 function handleTouchEnd() {
+    const dx = touchEndX - touchStartX;
+    const dy = touchEndY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0)
+            changeDirection("ArrowRight");
+        else
+            changeDirection("ArrowLeft");
+    }
+    else {
+        if (dy > 0)
+            changeDirection("ArrowDown");
+        else
+            changeDirection("ArrowUp");
+    }
+}
+function changeDirection(key) {
+    const newDirection = getDirection(key);
+    const allowChange = Math.abs(direction.dx) !== Math.abs(newDirection.dx);
+    if (allowChange && gameStarted)
+        direction = newDirection;
 }
 function getDirection(key) {
     switch (key) {
@@ -118,7 +152,6 @@ function gameOver() {
     return false;
 }
 function drawSnake() {
-    const gameBoard = document.getElementById("game-board");
     if (gameBoard) {
         gameBoard.querySelectorAll(".snake").forEach((el) => el.remove());
         snake.forEach((item, index) => {
@@ -133,7 +166,6 @@ function drawSnake() {
     }
 }
 function drawFood() {
-    const gameBoard = document.getElementById("game-board");
     if (gameBoard && food) {
         gameBoard.querySelectorAll(".food").forEach((el) => el.remove());
         const foodElement = document.createElement("div");

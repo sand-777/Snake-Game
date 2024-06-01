@@ -14,6 +14,16 @@ interface Direction {
 
 
 const gameBoard = document.getElementById("game-board");
+console.log(gameBoard)
+
+const startButton = document.querySelector("#start-game")
+console.log(startButton)
+
+gameBoard?.addEventListener("mousemove",()=>{
+  console.log(
+  "moving"
+  )
+})
 
 
 
@@ -57,13 +67,20 @@ const foodIcons = [
 
 
 let currentFoodIcon: string = "";
+startButton?.addEventListener("onclick",()=>{
+  console.log("btn clicked")
+ })
+  
 
 if(isMobile){
 
+
+
 if(gameBoard){
-  document.addEventListener("touchstart",handleTouchStart,false);
-  document.addEventListener("touchmove",handleTouchMove,false);
-  document.addEventListener("touchend",handleTouchEnd,false);
+  gameBoard.addEventListener("touchstart",handleTouchStart,false);
+  gameBoard.addEventListener("touchmove",handleTouchMove,false);
+  gameBoard.addEventListener("touchend",handleTouchEnd,false);
+  console.log("Touch events attached to gameBoard")
 }
 
 }
@@ -77,17 +94,36 @@ window.addEventListener("keydown", (e: KeyboardEvent) => {
 
 function handleTouchStart(e:TouchEvent){
 const firstTouch = e.touches[0];
-console.log(firstTouch)
+touchStartX = firstTouch.clientX;
+touchStartY = firstTouch.clientY;
 }
 
 
-function handleTouchMove(){
-
+function handleTouchMove(e:TouchEvent){
+const touch = e.touches[0];
+touchEndX = touch.clientX;
+touchEndY = touch.clientY;
 }
 
-function handleTouchEnd(){
 
+function handleTouchEnd() {
+  const dx = touchEndX - touchStartX;
+  const dy = touchEndY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy)) {
+      if (dx > 0) changeDirection("ArrowRight");
+      else changeDirection("ArrowLeft");
+  } else {
+      if (dy > 0) changeDirection("ArrowDown");
+      else changeDirection("ArrowUp");
+  }
 }
+
+function changeDirection(key:string) {
+  const newDirection = getDirection(key);
+  const allowChange = Math.abs(direction.dx) !== Math.abs(newDirection.dx);
+  if (allowChange && gameStarted) direction = newDirection;
+}
+
 
 
 function getDirection(key: string): Direction {
@@ -161,7 +197,7 @@ function gameOver(): boolean {
 }
 
 function drawSnake(): void {
-  const gameBoard = document.getElementById("game-board");
+ 
 
   if (gameBoard) {
     gameBoard.querySelectorAll(".snake").forEach((el) => el.remove());
@@ -179,7 +215,7 @@ function drawSnake(): void {
 }
 
 function drawFood(): void {
-  const gameBoard = document.getElementById("game-board");
+ 
 
   if (gameBoard && food) {
     gameBoard.querySelectorAll(".food").forEach((el) => el.remove());
