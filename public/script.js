@@ -2,7 +2,7 @@
 console.log("hello world");
 const gameBoard = document.getElementById("game-board");
 console.log(gameBoard);
-const startButton = document.querySelector("#start-game");
+const startButton = document.getElementById("start-game");
 console.log(startButton);
 gameBoard === null || gameBoard === void 0
   ? void 0
@@ -27,22 +27,16 @@ let highScore = 0;
 let speed = 200;
 let gameStarted = false;
 let gameBoardHeight = min(window.innerHeight, MAX_HEIGHT);
-let gameBoardWidth = min(window.innerWidth - 50, MAX_WIDTH - 50);
+let gameBoardWidth = min(window.innerWidth - 60, MAX_WIDTH - 60);
 let gameInfo = document.getElementById("game-info");
 let eatSound = new Audio("../eat.mp3");
 let gameOverSound = new Audio("../gameOver.mp3");
 let gameSound = new Audio("../game.mp3");
 const foodIcons = [
-  "🍏", // Green Apple
-  "🍎", // Red Apple
-  "🍌", // Banana
-  "🍒", // Cherries
-  "🍇", // Grapes
-  "🍉",
-  "🍓",
-  "🥝",
-  "🥭",
+  "⚽" // Green Apple
+  
 ];
+
 let currentFoodIcon = "";
 startButton === null || startButton === void 0
   ? void 0
@@ -51,11 +45,11 @@ startButton === null || startButton === void 0
       startGame();
     });
 if (isMobile) {
-  gameBoard === null || gameBoard === void 0
-    ? void 0
-    : gameBoard.addEventListener("touch", () => {
-        startGame();
-      });
+//   gameBoard === null || gameBoard === void 0
+//     ? void 0
+//     : gameBoard.addEventListener("touch", () => {
+//         startGame();
+//       });
   if (gameBoard) {
     gameBoard.addEventListener("touchstart", handleTouchStart, false);
     gameBoard.addEventListener("touchmove", handleTouchMove, false);
@@ -134,16 +128,21 @@ function moveSnake() {
   }
 }
 function randomFood() {
+    const maxX = Math.floor((gameBoardWidth - 20)/20);
+    const maxY = Math.floor((gameBoardHeight - 20)/20);
   food = {
-    top: Math.floor(Math.random() * 20) * 20,
-    left: Math.floor(Math.random() * 20) * 20,
+    top: Math.floor(Math.random() * maxY) * 20,
+    left: Math.floor(Math.random() * maxX) * 20
+  
   };
   currentFoodIcon = foodIcons[Math.floor(Math.random() * foodIcons.length)];
 }
 function eatFood() {
-  if (food && snake[0].top === food.top && snake[0].left === food.left) {
-    food = null;
+    const tolerance = 1;
+  if ((food && Math.abs(snake[0].top - food.top) <= tolerance && Math.abs(snake[0].left - food.left) <= tolerance)) {
     return true;
+    food = null;
+    
   }
   return false;
 }
@@ -188,13 +187,15 @@ function updateScore() {
 }
 function gameLoop() {
   if (!gameStarted) {
-    if (gameInfo) {
+    if (gameInfo && !isMobile) {
       gameInfo.innerText = "Press Space to Start";
     }
+   
     // window.addEventListener("keydown", startGame, { once: true });
     window.addEventListener("keydown", (e) => {
       if (e.key === " ") {
         startGame();
+        
       }
     });
     return;
@@ -246,6 +247,7 @@ function gameLoop() {
 }
 function startGame() {
   gameStarted = true;
+  startButton.style.display = "none";
   if (gameInfo) {
     gameInfo.innerText = "";
   }
@@ -265,7 +267,7 @@ function max(num1, num2) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  gameBoard.style.width = min(window.innerWidth - 50, MAX_WIDTH - 50) + "px";
+  gameBoard.style.width = min(window.innerWidth - 60, MAX_WIDTH - 60) + "px";
   gameBoard.style.height = min(window.innerHeight, MAX_HEIGHT) + "px";
 });
 
@@ -276,8 +278,8 @@ window.addEventListener("resize", () => {
   // resize the game board
   console.log("inside");
   //   gameBoardHeight = 220;
-  gameBoardWidth = min(window.innerWidth - 50, MAX_WIDTH - 50);
-  gameBoard.style.width = min(window.innerWidth - 50, MAX_WIDTH - 50) + "px";
+  gameBoardWidth = min(window.innerWidth - 60, MAX_WIDTH - 60);
+  gameBoard.style.width = min(window.innerWidth - 60, MAX_WIDTH - 60) + "px";
 
   gameBoardHeight = min(window.innerHeight, MAX_HEIGHT);
   gameBoard.style.height = min(window.innerHeight, MAX_HEIGHT) + "px";
