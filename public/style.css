@@ -91,13 +91,14 @@ body {
 }
 
 #score-board {
+  position: absolute;
+  top: 1em;
   margin-top: 20px;
   display: flex;
   justify-content: space-around;
   width: 400px;
   font-size: 24px;
   color: #fff;
-  opacity: 0.5;
   z-index: 999;
 }
 
@@ -182,6 +183,7 @@ body {
 }
 
 #start-game {
+
   position: absolute;
   top: 80%;
   left: 50%;
@@ -192,18 +194,18 @@ body {
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  display: none;
   font-size: 16px;
   z-index: 2;
 }
 
-/* @media (max-width: 400px) {
-    #game-board{
-        position: relative;
-        height: 340px;
-        width: 340px;
-        border: 1px solid #fff ;
-       
-        
-    }
-  } */
+
+
+ @media (max-width: 400px) {
+    
+       #start-game{
+        display: inline-block;
+       } 
+    
+  } 
+

@@ -135,8 +135,8 @@ function moveSnake() {
 }
 function randomFood() {
   food = {
-    top: Math.floor(Math.random() * 18) * 20,
-    left: Math.floor(Math.random() * 18) * 20,
+    top: Math.floor(Math.random() * 20) * 20,
+    left: Math.floor(Math.random() * 20) * 20,
   };
   currentFoodIcon = foodIcons[Math.floor(Math.random() * foodIcons.length)];
 }
