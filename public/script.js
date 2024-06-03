@@ -140,8 +140,9 @@ function randomFood() {
 function eatFood() {
     const tolerance = 1;
   if ((food && Math.abs(snake[0].top - food.top) <= tolerance && Math.abs(snake[0].left - food.left) <= tolerance)) {
+   food = null;
     return true;
-    food = null;
+  
     
   }
   return false;
@@ -201,7 +202,8 @@ function gameLoop() {
     return;
   }
   if (gameOver()) {
-    const gameBoard = document.getElementById("game-board");
+   
+    const gameBoard =  document.getElementById("game-board");
     if (gameBoard) {
       gameBoard.innerHTML = "";
       const gameOverMessage = document.createElement("div");
@@ -209,11 +211,17 @@ function gameLoop() {
       gameOverMessage.innerText = `Game Over. Score: ${score}. Press Space to Play Again.`;
       gameBoard.appendChild(gameOverMessage);
       console.log(gameBoard.innerHTML);
-    }
+      if(isMobile){
+        gameOverMessage.innerText = `Game Over. Score: ${score}`
+        startButton.style.display = "block";
+      }
+    } 
+    
     gameStarted = false;
     gameSound.pause();
     gameOverSound.play();
     gameSound.currentTime = 0;
+   
     //     if(gameInfo){
     //     gameInfo.innerText = "Game Over"
     //   }
@@ -226,7 +234,7 @@ function gameLoop() {
     snake = [{ top: 200, left: 200 }];
     direction = { key: "ArrowRight", dx: 20, dy: 0 };
     food = null;
-    window.addEventListener("keydown", startGame, { once: true });
+    window.removeEventListener("keydown", startGame);
     return;
   }
   setTimeout(() => {
@@ -245,13 +253,15 @@ function gameLoop() {
     gameLoop();
   }, speed);
 }
+
 function startGame() {
   gameStarted = true;
+  speed = 200;
   startButton.style.display = "none";
   if (gameInfo) {
     gameInfo.innerText = "";
   }
-  gameLoop();
+  gameLoop(); 
 }
 // randomFood();
 // drawSnake();
@@ -267,8 +277,8 @@ function max(num1, num2) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  gameBoard.style.width = min(window.innerWidth - 60, MAX_WIDTH - 60) + "px";
-  gameBoard.style.height = min(window.innerHeight, MAX_HEIGHT) + "px";
+  gameBoard.style.width = Math.min(window.innerWidth - 60, MAX_WIDTH - 60) + "px";
+  gameBoard.style.height = Math.min(window.innerHeight, MAX_HEIGHT) + "px";
 });
 
 // rotate on 600px
@@ -278,11 +288,10 @@ window.addEventListener("resize", () => {
   // resize the game board
   console.log("inside");
   //   gameBoardHeight = 220;
-  gameBoardWidth = min(window.innerWidth - 60, MAX_WIDTH - 60);
-  gameBoard.style.width = min(window.innerWidth - 60, MAX_WIDTH - 60) + "px";
-
-  gameBoardHeight = min(window.innerHeight, MAX_HEIGHT);
-  gameBoard.style.height = min(window.innerHeight, MAX_HEIGHT) + "px";
+  gameBoardWidth = Math.min(window.innerWidth - 60, MAX_WIDTH - 60);
+  gameBoard.style.width = Math.min(window.innerWidth - 60, MAX_WIDTH - 60) + "px";
+  gameBoardHeight = Math.min(window.innerHeight, MAX_HEIGHT);
+  gameBoard.style.height = Math.min(window.innerHeight, MAX_HEIGHT) + "px";
 
   // }
 });
