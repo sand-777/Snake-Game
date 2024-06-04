@@ -4,11 +4,11 @@ const gameBoard = document.getElementById("game-board");
 console.log(gameBoard);
 const startButton = document.getElementById("start-game");
 console.log(startButton);
-gameBoard === null || gameBoard === void 0
-  ? void 0
-  : gameBoard.addEventListener("mousemove", () => {
-      console.log("moving");
-    });
+// gameBoard === null || gameBoard === void 0
+//   ? void 0
+//   : gameBoard.addEventListener("mousemove", () => {
+//       console.log("moving");
+//     });
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 console.log(isMobile);
 
@@ -119,6 +119,7 @@ function moveSnake() {
   if (snake[0].top > gameBoardHeight - 20) snake[0].top = 0;
   if (snake[0].left > gameBoardWidth - 20) snake[0].left = 0;
   if (eatFood()) {
+    console.log("food eaten")
     eatSound.play();
     score += 2;
     speed = speed - 5;
@@ -133,17 +134,24 @@ function randomFood() {
   food = {
     top: Math.floor(Math.random() * maxY) * 20,
     left: Math.floor(Math.random() * maxX) * 20
-  
   };
   currentFoodIcon = foodIcons[Math.floor(Math.random() * foodIcons.length)];
 }
 function eatFood() {
-    const tolerance = 1;
-  if ((food && Math.abs(snake[0].top - food.top) <= tolerance && Math.abs(snake[0].left - food.left) <= tolerance)) {
-   food = null;
-    return true;
+  if(food && snake[0]){
   
+  const roundedHeadTop = Math.round(snake[0].top);
+  const roundedHeadLeft = Math.round(snake[0].left);
+  const roundedFoodTop = Math.round(food.top);
+  const roundedFoodLeft = Math.round(food.left);
+ if(roundedHeadTop === roundedFoodTop && roundedHeadLeft === roundedFoodLeft) {
+   food = null;
+   console.log("running")
+
+    return true;
     
+ }
+ 
   }
   return false;
 }
@@ -247,6 +255,7 @@ function gameLoop() {
     if (gameStarted) {
       gameSound.play();
     }
+    
     updateScore();
     drawSnake();
     drawFood();
@@ -277,21 +286,29 @@ function max(num1, num2) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  gameBoard.style.width = Math.min(window.innerWidth - 60, MAX_WIDTH - 60) + "px";
-  gameBoard.style.height = Math.min(window.innerHeight, MAX_HEIGHT) + "px";
+  gameBoard.style.width = min(window.innerWidth - 60, MAX_WIDTH - 60) + "px";
+  gameBoard.style.height =min(window.innerHeight, MAX_HEIGHT) + "px";
 });
 
 // rotate on 600px
 window.addEventListener("resize", () => {
-  //   console.log("resizing", window.innerWidth);
-  // if (window.innerWidth <= 600) {
-  // resize the game board
-  console.log("inside");
-  //   gameBoardHeight = 220;
-  gameBoardWidth = Math.min(window.innerWidth - 60, MAX_WIDTH - 60);
-  gameBoard.style.width = Math.min(window.innerWidth - 60, MAX_WIDTH - 60) + "px";
-  gameBoardHeight = Math.min(window.innerHeight, MAX_HEIGHT);
-  gameBoard.style.height = Math.min(window.innerHeight, MAX_HEIGHT) + "px";
+  //Calculate new dimensions based on window size,ensuring divisibility by 20
+let newWidth = Math.floor((window.innerWidth - 60)/20) * 20;
+let newHeight = Math.floor((window.innerHeight)/20) * 20;
+
+//Update gameBoard Dimensions
+
+gameBoard.style.width = newWidth + "px";
+gameBoard.style.height = newHeight + "px";
+
+//Ensure gameBoardHeight and gameBoardWidth variables are updated
+
+gameBoardHeight = newHeight;
+gameBoardWidth = newWidth;
+
+console.log("Resized game board to :",newWidth,"x",newHeight);
+  
+
 
   // }
 });

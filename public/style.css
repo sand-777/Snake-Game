@@ -63,14 +63,10 @@ body {
   filter: brightness(0.4);
   background-position: 50% 100%;
   z-index: -1;
+  transform: rotate(0deg);
 }
 
-@media only screen and (min-width: 640px) {
-  .background-wrapper::before {
-    background-size: 1585px;
-    background-position: 50% 30%;
-  }
-}
+
 
 /* 
 .background-wrapper::after {
@@ -120,6 +116,8 @@ body {
   z-index: 1;
   top: 50%;
   left: 50%;
+  width: calc(20*20);
+  height: calc(20*20);
   transform: translate(-50%, -50%);
 }
 
@@ -173,6 +171,14 @@ body {
   /* border: 1px solid black; */
 }
 
+.snake,.food{
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transform-origin: top left;
+  transform: translate(10px,10px);
+}
+
 .game-over-message {
   position: absolute;
   top: 50%;
@@ -207,6 +213,18 @@ body {
        #start-game{
         display: block;
        } 
+
+       
+      }
+
+
+      @media only screen and (min-width: 640px) {
+        .background-wrapper::before {
+          background-size: 1585px;
+          background-position: 50% 30%;
+          
+        }
+      }
     
-  } 
+  
 
