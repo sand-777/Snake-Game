@@ -296,37 +296,14 @@ function max(num1, num2) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-<<<<<<< HEAD
-  gameBoard.style.width = min(window.innerWidth - 60, MAX_WIDTH - 60) + "px";
-  gameBoard.style.height =min(window.innerHeight, MAX_HEIGHT) + "px";
-=======
   const width = getWidth()
 
   gameBoard.style.width = min(width - 20, MAX_WIDTH - 20) + "px";
   gameBoard.style.height = min(window.innerHeight, MAX_HEIGHT) + "px";
->>>>>>> dd83d4f (width multiple)
 });
 
 // rotate on 600px
 window.addEventListener("resize", () => {
-<<<<<<< HEAD
-  //Calculate new dimensions based on window size,ensuring divisibility by 20
-let newWidth = Math.floor((window.innerWidth - 60)/20) * 20;
-let newHeight = Math.floor((window.innerHeight)/20) * 20;
-
-//Update gameBoard Dimensions
-
-gameBoard.style.width = newWidth + "px";
-gameBoard.style.height = newHeight + "px";
-
-//Ensure gameBoardHeight and gameBoardWidth variables are updated
-
-gameBoardHeight = newHeight;
-gameBoardWidth = newWidth;
-
-console.log("Resized game board to :",newWidth,"x",newHeight);
-  
-=======
   //   console.log("resizing", window.innerWidth);
   // if (window.innerWidth <= 600) {
   // resize the game board
@@ -335,7 +312,6 @@ console.log("Resized game board to :",newWidth,"x",newHeight);
   // console.log("inside");
   gameBoardWidth = min(width - 20, MAX_WIDTH - 20);
   gameBoard.style.width = min(width - 20, MAX_WIDTH - 20) + "px";
->>>>>>> dd83d4f (width multiple)
 
 
   // }
