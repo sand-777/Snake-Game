@@ -12,9 +12,6 @@ console.log(startButton);
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 console.log(isMobile);
 
-const MAX_WIDTH = 680;
-const MAX_HEIGHT = 480;
-const STEP = 20;
 
 const getWidth = () => {
   const innerWidth = window.innerWidth;
@@ -23,6 +20,15 @@ const getWidth = () => {
 
   return roundedWidth;
 }
+
+
+let innerWidth;
+let innerHeight;
+
+
+let MAX_WIDTH = 680;
+let MAX_HEIGHT = 480;
+let STEP = 20;
 
 
 let touchStartX = 0;
@@ -37,7 +43,7 @@ let highScore = 0;
 let speed = 200;
 let gameStarted = false;
 let gameBoardHeight = min(window.innerHeight, MAX_HEIGHT);
-let gameBoardWidth = min(window.innerWidth - 60, MAX_WIDTH - 60);
+let gameBoardWidth = min(getWidth(), MAX_WIDTH);
 let gameInfo = document.getElementById("game-info");
 let eatSound = new Audio("../eat.mp3");
 let gameOverSound = new Audio("../gameOver.mp3");
@@ -296,10 +302,23 @@ function max(num1, num2) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  // const width = getWidth()
+
+  // gameBoard.style.width = min(innerWidth, MAX_WIDTH) + "px";
+  // gameBoard.style.height = min(window.innerHeight, MAX_HEIGHT) + "px";
+  
+ 
+
   const width = getWidth()
 
-  gameBoard.style.width = min(width - 20, MAX_WIDTH - 20) + "px";
-  gameBoard.style.height = min(window.innerHeight, MAX_HEIGHT) + "px";
+  // MAX_WIDTH = width;
+
+  innerWidth = window.innerWidth;
+  innerHeight = window.innerHeight;
+
+  gameBoard.style.width =  min(width,MAX_WIDTH) + "px";
+  gameBoard.style.height = MAX_HEIGHT + "px";
+
 });
 
 // rotate on 600px
@@ -308,11 +327,23 @@ window.addEventListener("resize", () => {
   // if (window.innerWidth <= 600) {
   // resize the game board
   const width = getWidth()
+  innerWidth = window.innerWidth;
+  innerHeight = window.innerHeight;
+
+  MAX_WIDTH = innerWidth <= 640 ? 480 : 680;
+
+  // innerWidth = window.innerWidth;
+  // innerHeight = window.innerHeight
 
   // console.log("inside");
-  gameBoardWidth = min(width - 20, MAX_WIDTH - 20);
-  gameBoard.style.width = min(width - 20, MAX_WIDTH - 20) + "px";
+  gameBoardWidth = min(innerWidth, MAX_WIDTH );
+  gameBoard.style.width = min(innerWidth , MAX_WIDTH ) + "px";
 
 
   // }
 });
+
+
+// in small screen it must be portrait height must be 700px at max and width would be 480px at max
+// in larger screen it must be landscape height must be 480px and width must be 680px at max
+
